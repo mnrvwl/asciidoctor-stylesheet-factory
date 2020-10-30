@@ -7,27 +7,27 @@ STYLESHEET_NAME=asciidoctor
 bundle exec compass compile -s compact
 LINES=$(wc -l stylesheets/$STYLESHEET_NAME.css | cut -d" " -f1)
 echo '/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */' > $STYLESHEET_NAME.css
-cat stylesheets/$STYLESHEET_NAME.css \
-| sed -e 's/ *\/\*\+!\? [^*]\+\($\| \*\/\)//g' \
-      -e 's/^\/\*\* .* \*\/$//' \
-      -e '/^\(*\/\|\) *$/d' \
-      -e 's/^@media only/@media/' \
-      -e '/\.antialiased {/d' \
-      -e '/^body { margin: 0;/d' \
-      -e 's/^body { background:[^}]*/&tab-size: 4; -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased;/' \
-      -e '/^body { -moz-osx-font-smoothing:/d' \
-      -e 's/direction: ltr;//' \
-      -e 's/, \(summary\|canvas\)//' \
-      -e '/^script /d' \
-      -e '/object, svg { display: inline-block;/d' \
-      -e 's/img { display: inline-block;/img, object, svg { display: inline-block;/' \
-      -e 's/table thead, table tfoot {\(.*\) font-weight: bold;\(.*\)}/table thead, table tfoot {\1\2}/' \
-      -e 's/, table tr:nth-of-type(even)//' \
-      -e '/^p\.lead {/d' \
-      -e '/^ul\.no-bullet, ol\.no-bullet { margin-left: 1.5em; }$/d' \
-      -e '/^ul\.no-bullet { list-style: none; }$/d' \
-      -e '/\(meta\.\|\.vcard\|\.vevent\|#map_canvas\|"search"\|\[hidden\]\)/d' \
-      | grep -v 'font-awesome' >> $STYLESHEET_NAME.css
+sed -e 's/ *\/\*\+!\? [^*]\+\($\| \*\/\)//g' \
+    -e 's/^\/\*\* .* \*\/$//' \
+    -e '/^\(*\/\|\) *$/d' \
+    -e 's/^@media only/@media/' \
+    -e '/\.antialiased {/d' \
+    -e '/^body { margin: 0;/d' \
+    -e 's/^body { background:[^}]*/&tab-size: 4; -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased;/' \
+    -e '/^body { -moz-osx-font-smoothing:/d' \
+    -e 's/direction: ltr;//' \
+    -e 's/, \(summary\|canvas\)//' \
+    -e '/^script /d' \
+    -e '/object, svg { display: inline-block;/d' \
+    -e 's/img { display: inline-block;/img, object, svg { display: inline-block;/' \
+    -e 's/table thead, table tfoot {\(.*\) font-weight: bold;\(.*\)}/table thead, table tfoot {\1\2}/' \
+    -e 's/, table tr:nth-of-type(even)//' \
+    -e '/^p\.lead {/d' \
+    -e '/^ul\.no-bullet, ol\.no-bullet { margin-left: 1.5em; }$/d' \
+    -e '/^ul\.no-bullet { list-style: none; }$/d' \
+    -e '/\(meta\.\|\.vcard\|\.vevent\|#map_canvas\|"search"\|\[hidden\]\)/d' \
+    stylesheets/$STYLESHEET_NAME.css \
+    | grep -v 'font-awesome' >> $STYLESHEET_NAME.css
 
 # see https://www.npmjs.org/package/cssshrink (using 0.0.5)
 # must run first: npm install cssshrink
