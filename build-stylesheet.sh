@@ -2,9 +2,7 @@
 
 STYLESHEET_NAME=asciidoctor
 
-if [ ! -z $1 ]; then
-  STYLESHEET_NAME=$1
-fi
+[ -z $1 ] || STYLESHEET_NAME=$1
 
 bundle exec compass compile -s compact
 LINES=`wc -l stylesheets/$STYLESHEET_NAME.css | cut -d" " -f1`
