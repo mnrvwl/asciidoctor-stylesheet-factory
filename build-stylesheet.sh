@@ -1,12 +1,16 @@
 #!/bin/sh
 
-STYLESHEET_NAME=asciidoctor
+stylesheet_name="asciidoctor"
+header="/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */"
 
-[ -z $1 ] || STYLESHEET_NAME=$1
+[ -z $1 ] || stylesheet_name="$1"
 
 bundle exec compass compile -s compact
-LINES=$(wc -l stylesheets/$STYLESHEET_NAME.css | cut -d" " -f1)
-echo '/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */' > $STYLESHEET_NAME.css
+
+lines="$(wc -l stylesheets/$stylesheet_name.css | cut -d ' ' -f1)"
+
+printf '%s\n' "$header" > "$stylesheet_name.css"
+
 sed -e 's/ *\/\*\+!\? [^*]\+\($\| \*\/\)//g' \
     -e 's/^\/\*\* .* \*\/$//' \
     -e '/^\(*\/\|\) *$/d' \
@@ -26,12 +30,12 @@ sed -e 's/ *\/\*\+!\? [^*]\+\($\| \*\/\)//g' \
     -e '/^ul\.no-bullet, ol\.no-bullet { margin-left: 1.5em; }$/d' \
     -e '/^ul\.no-bullet { list-style: none; }$/d' \
     -e '/\(meta\.\|\.vcard\|\.vevent\|#map_canvas\|"search"\|\[hidden\]\)/d' \
-    stylesheets/$STYLESHEET_NAME.css \
-    | grep -v 'font-awesome' >> $STYLESHEET_NAME.css
+    "stylesheets/$stylesheet_name.css" \
+    | grep -v 'font-awesome' >> "$stylesheet_name.css"
 
 # see https://www.npmjs.org/package/cssshrink (using 0.0.5)
 # must run first: npm install cssshrink
-./node_modules/.bin/cssshrink $STYLESHEET_NAME.css \
+./node_modules/.bin/cssshrink $stylesheet_name.css \
 | sed -e '1i\
 /* Uncomment @import statement to use as custom stylesheet */\
 /*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/' \
@@ -47,4 +51,4 @@ sed -e 's/ *\/\*\+!\? [^*]\+\($\| \*\/\)//g' \
   -e 's/\([^:]\):\(before\|after\)/\1::\2/g' \
   # drop the fourth value if it matches the second
   -e 's/\([a-z-]\+\):\([0-9.empx-]\+\) \([0-9.empx-]\+\) \([0-9.empx-]\+\) \3/\1:\2 \3 \4/g' \
-  | ruby -e 'puts STDIN.read.gsub(/}(?!})/, %(}\n)).chomp' - > $STYLESHEET_NAME.min.css
+  | ruby -e 'puts STDIN.read.gsub(/}(?!})/, %(}\n)).chomp' - > "$stylesheet_name.min.css"
