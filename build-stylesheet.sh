@@ -5,7 +5,7 @@ STYLESHEET_NAME=asciidoctor
 [ -z $1 ] || STYLESHEET_NAME=$1
 
 bundle exec compass compile -s compact
-LINES=`wc -l stylesheets/$STYLESHEET_NAME.css | cut -d" " -f1`
+LINES=$(wc -l stylesheets/$STYLESHEET_NAME.css | cut -d" " -f1)
 echo '/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */' > $STYLESHEET_NAME.css
 cat stylesheets/$STYLESHEET_NAME.css |
   sed 's/ *\/\*\+!\? [^*]\+\($\| \*\/\)//g' |
