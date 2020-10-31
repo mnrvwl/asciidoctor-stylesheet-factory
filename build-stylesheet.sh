@@ -7,7 +7,7 @@ header="/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.or
 
 bundle exec compass compile -s compact
 
-lines="$(wc -l stylesheets/$stylesheet_name.css | cut -d ' ' -f1)"
+LINES="$(wc -l stylesheets/$stylesheet_name.css | cut -d ' ' -f1)"
 
 printf '%s\n' "$header" > "$stylesheet_name.css"
 
